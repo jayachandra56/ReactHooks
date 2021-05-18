@@ -1,24 +1,27 @@
-import logo from './logo.svg';
+import React,{useReducer} from 'react';
 import './App.css';
+import CompoA from './CompoA'
+import { context } from './contextCreator';
+import { cakeReducer, iceReducer } from './reducers';
+
+const cakeInitialState={
+  noOfCakes:10
+}
+
+const iceInitialState={
+  noOfIceCreams:10
+}
 
 function App() {
+
+  const [stateCake, dispatchCake] = useReducer(cakeReducer, cakeInitialState)
+  const [stateIce, dispatchIce] = useReducer(iceReducer, iceInitialState)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <context.Provider value={{CakeState:stateCake,IceState:stateIce,cakeAction:dispatchCake,iceAction:dispatchIce}}>
+      <div className="App">
+        <CompoA/>
+      </div>
+    </context.Provider>
   );
 }
 
